@@ -1,0 +1,43 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #3498db; /* You can change this to your desired background color */
+}
+
+.question-container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #2ecc71; /* Button color */
+    color: white; /* Text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+button:hover {
+    background-color: #27ae60; /* Hover color */
+}
+
+h1.result {
+    margin-top: 10px;
+    color: #e74c3c; /* Result text color */
+}
+
+button#continue-btn {
+    display: none; /* Hide the continue button initially */
+}
