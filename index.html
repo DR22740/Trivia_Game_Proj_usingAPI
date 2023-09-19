@@ -22,8 +22,18 @@
                 <option value="" disabled selected>Select a category</option>
                 <!-- Add more placeholder options as needed -->
             </select>
+            <label for="type">Type:</label>
+            <select id="type">
+               <option value="boolean">True or False</option>
+                <option value="multiple">Multiple Choice</option>
+                
+            </select>
         </div>
         <p class="question">Loading...</p>
+    <button id="choice-a-btn" style="display: none">Choice A</button>
+    <button id="choice-b-btn" style="display: none">Choice B</button>
+    <button id="choice-c-btn" style="display: none">Choice C</button>
+    <button id="choice-d-btn" style="display: none">Choice D</button>
          <button id="true-btn" style="display: none">True</button>
         <button id="false-btn" style="display: none">False</button>
         <h1 class="result"></h1>
