@@ -1,6 +1,7 @@
 //list constructor:
+const categoryDropdown = document.getElementById('category');
 async function populateCategories() {
-    const categoryDropdown = document.getElementById('category');
+    
     
     try {
         const response = await fetch('https://opentdb.com/api_category.php');
@@ -24,57 +25,97 @@ async function populateCategories() {
     }
 }
 
+// Call the function to populate categories when the page loads
 window.addEventListener('load', populateCategories);
-//populateCategories();
-
 
 // script.js
 const questionContainer = document.querySelector('.question-container');
 const questionElement = document.querySelector('.question');
 const trueButton = document.getElementById('true-btn');
 const falseButton = document.getElementById('false-btn');
+const choiceAButton = document.getElementById('choice-a-btn');
+const choiceBButton = document.getElementById('choice-b-btn');
+const choiceCButton = document.getElementById('choice-c-btn');
+const choiceDButton = document.getElementById('choice-d-btn');
 const resultElement = document.querySelector('.result');
 const continueButton = document.getElementById('continue-btn');
 const healthDisplay = document.getElementById('Health');
 const ScoreDisplay = document.getElementById('Score');
 const resetButton = document.getElementById('reset-btn')
 const startGameButton = document.getElementById('start-game-btn'); // Add this button in your HTML
+
+
+
+
+categoryDropdown.addEventListener('change', () => {
+    // Check if a category has been selected (value is not empty)
+    if (categoryDropdown.value !== '') {
+        // If a category is selected, show the "Start Game" button
+        startGameButton.style.display = 'block';
+    } else {
+        // If no category is selected, hide the "Start Game" button
+        startGameButton.style.display = 'none';
+    }
+});
+
+
+
+
+
 let correctAnswer = ''; // Store the correct answer
+let setOfAnswers = [];
+
+
+function randomizeSetOfAnswers(loA){
+    let shuffledArr = loA.sort(() => Math.random() - 0.5);
+    console.log(shuffledArr);
+    return shuffledArr;
+}
+
+
 let HP = 5;
 let Scoree = 0;
 // Function to fetch a true/false question from the API
   trueButton.disabled = false;
     falseButton.disabled = false;
+       choiceAButton.disabled = false;
+    choiceBButton.disabled = false;
+    choiceCButton.disabled = false;
+    choiceDButton.disabled = false;
+
 let currentQuestionIndex = 0;
 
 // Fetch a batch of questions and store them in an array
 let questionsBatch = [];
-let ListLength = 10;
-// Function to generate the API URL
+let secelectedType;
+// let ListLength = 10;
+// // Function to generate the API URL
 
-//let category = 9;
-let difficulty = "medium";
-//let category = 9; // General Knowledge category
+// //let category = 9;
+// let difficulty = "medium";
+// //let category = 9; // General Knowledge category
 
 
-function generateTriviaApiUrl(difficulty, category) {
+function generateTriviaApiUrl(difficulty, category, type) {
   const baseUrl = "https://opentdb.com/api.php";
   const params = new URLSearchParams({
     amount: 10, // Change the amount to the desired number of questions
-    type: "boolean",
-    difficulty,
     category,
+    difficulty,
+    type,
+    
   });
   return `${baseUrl}?${params.toString()}`;
 }
 
 // Function to fetch questions and store them in the batch
-async function fetchQuestions(difficulty, category) {
+async function fetchQuestions(difficulty, category, type) {
         let selectedDifficulty = document.getElementById('difficulty').value;
         
   let categoryNum = parseInt(document.getElementById('category').value);
   let selectedCategory = categoryNum;
-  const apiUrl = generateTriviaApiUrl(selectedDifficulty, selectedCategory);
+  secelectedType = document.getElementById('type').value;
+  const apiUrl = generateTriviaApiUrl(selectedDifficulty, selectedCategory, secelectedType);
   console.log(apiUrl);
   const response = await fetch(apiUrl);
 
@@ -93,21 +134,37 @@ startGameButton.addEventListener('click', async () => {
     // Hide the difficulty and category dropdowns
     document.getElementById('difficulty').style.display = 'none';
     document.getElementById('category').style.display = 'none';
+   document.getElementById('type').style.display = 'none';
     
     // Hide the labels for "category" and "difficulty"
     document.querySelector('label[for="difficulty"]').style.display = 'none';
     document.querySelector('label[for="category"]').style.display = 'none';
+    document.querySelector('label[for="type"]').style.display = 'none';
     
     // Hide the "Start Game" button itself
     startGameButton.style.display = 'none';
     
     // Make the "True" and "False" buttons visible
+
+     resetGame();
+   
+
+    await fetchQuestions(); // Initial fetch when starting the game
+    // Reset and fetch questions
+    if(secelectedType === 'boolean'){
     document.getElementById('true-btn').style.display = 'block';
     document.getElementById('false-btn').style.display = 'block';
+}else if(secelectedType === 'multiple'){
 
-    // Reset and fetch questions
-    resetGame();
-    await fetchQuestions(); // Initial fetch when starting the game
+    document.getElementById('choice-a-btn').style.display = 'block';
+    document.getElementById('choice-b-btn').style.display = 'block'; 
+    document.getElementById('choice-c-btn').style.display = 'block'; 
+    document.getElementById('choice-d-btn').style.display = 'block'; 
+
+  
+    
+}
+
     fetchTrueFalseQuestion();
 });
 
@@ -115,16 +172,18 @@ startGameButton.addEventListener('click', async () => {
 
 
 function fetchTrueFalseQuestion() {
-   
-
-   
     let Question = questionsBatch[currentQuestionIndex].question;
     let decodedQuestion = decodeHtmlEntities(Question);
    
     correctAnswer = questionsBatch[currentQuestionIndex].correct_answer; // Store the correct answer
+    console.log(correctAnswer);
+    let initiallist =  [questionsBatch[currentQuestionIndex].correct_answer, questionsBatch[currentQuestionIndex].incorrect_answers[0], questionsBatch[currentQuestionIndex].incorrect_answers[1], questionsBatch[currentQuestionIndex].incorrect_answers[2]]
+    setOfAnswers = randomizeSetOfAnswers(initiallist);
     questionElement.innerHTML = decodedQuestion;
-
-    
+    choiceAButton.innerHTML = setOfAnswers[0];
+    choiceBButton.innerHTML = setOfAnswers[1];
+    choiceCButton.innerHTML = setOfAnswers[2];
+    choiceDButton.innerHTML = setOfAnswers[3];
 }
 
 
@@ -137,14 +196,25 @@ function decodeHtmlEntities(text) { // I use this function to decode countless h
 
    trueButton.addEventListener('click', () => checkAnswer('True'));
     falseButton.addEventListener('click', () => checkAnswer('False'));
+    choiceAButton.addEventListener('click', () => checkAnswer(setOfAnswers[0]));
+    choiceBButton.addEventListener('click', () => checkAnswer(setOfAnswers[1]));
+    choiceCButton.addEventListener('click', () => checkAnswer(setOfAnswers[2]));
+    choiceDButton.addEventListener('click', () => checkAnswer(setOfAnswers[3]));
+
 // Function to check the user's answer
 function checkAnswer(selectedAnswer) {
      trueButton.disabled = true;
     falseButton.disabled = true;
+    choiceAButton.disabled = true;
+    choiceBButton.disabled = true;
+    choiceCButton.disabled = true;
+    choiceDButton.disabled = true;
+
+    
 console.log("running this function");
 
 
-    trueButton.disabled = true;
+    trueButton.disabled = true;//Delete later
     falseButton.disabled = true;
 
     if (selectedAnswer === correctAnswer) {
@@ -209,6 +279,10 @@ function continueGame() {
     console.log("here is the current HP: "+HP);
     trueButton.disabled = false;
     falseButton.disabled = false;
+    choiceAButton.disabled = false;
+    choiceBButton.disabled = false;
+    choiceCButton.disabled = false;
+    choiceDButton.disabled = false;
     resultElement.textContent = '';
     continueButton.style.display = 'none';
     trueButton.disabled = false;
@@ -240,6 +314,7 @@ function addindex(currentQuestionIndex){
     console.log('running addindexFunction!!! ');
     if (currentQuestionIndex == 9){
         console.log("you win you win!!!")
+        window.location.assign("WinPage.html");
         return currentQuestionIndex;
     }else{
 
