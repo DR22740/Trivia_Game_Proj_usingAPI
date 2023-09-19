@@ -25,8 +25,8 @@ async function populateCategories() {
 }
 
 // Call the function to populate categories when the page loads
-window.addEventListener('load', populateCategories);
-
+//window.addEventListener('load', populateCategories);
+populateCategories();
 
 
 // script.js
