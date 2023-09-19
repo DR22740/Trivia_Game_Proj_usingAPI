@@ -61,8 +61,8 @@ function generateTriviaApiUrl(difficulty, category) {
   const baseUrl = "https://opentdb.com/api.php";
   const params = new URLSearchParams({
     amount: 10, // Change the amount to the desired number of questions
-    difficulty,
     type: "boolean",
+    difficulty,
     category,
   });
   return `${baseUrl}?${params.toString()}`;
