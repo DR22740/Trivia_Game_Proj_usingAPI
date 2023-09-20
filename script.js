@@ -1,5 +1,6 @@
 //list constructor:
 const categoryDropdown = document.getElementById('category');
+
 async function populateCategories() {
     
     
@@ -146,7 +147,7 @@ startGameButton.addEventListener('click', async () => {
     
     // Make the "True" and "False" buttons visible
 
-     resetGame();
+     //resetGame();
    
 
     await fetchQuestions(); // Initial fetch when starting the game
@@ -257,8 +258,8 @@ console.log("running this function");
         HP = HP - 1;
         console.log(HP);
          currentQuestionIndex = addindex(currentQuestionIndex);
-
-        resultElement.textContent = `Incorrect! The correct answer is ${correctAnswer}.`;
+         let newCorectAnswer = decodeHtmlEntities(correctAnswer);
+        resultElement.textContent = `Incorrect! The correct answer is ${newCorectAnswer}.`;
         continueButton.style.display = 'block';
         healthDisplay.textContent = `Health: ${HP}`;
         continueButton.textContent = 'Continue';
