@@ -291,16 +291,17 @@ function continueGame() {
 
 // Function to reset the game
 function resetGame() {
-    console.log("reset incoming!!!");
-    currentQuestionIndex = 0;
-    HP = 5;
-    healthDisplay.textContent = "Health: 5"
-            Scoree = 0;
-        Score.textContent = "Score: 0";
-    resultElement.textContent = '';
-    resetButton.style.display = 'none';
-    trueButton.disabled = false;
-    falseButton.disabled = false;
+    // console.log("reset incoming!!!");
+    // currentQuestionIndex = 0;
+    // HP = 5;
+    // healthDisplay.textContent = "Health: 5"
+    //         Scoree = 0;
+    //     Score.textContent = "Score: 0";
+    // resultElement.textContent = '';
+    // resetButton.style.display = 'none';
+    // trueButton.disabled = false;
+    // falseButton.disabled = false;
+    window.location.assign("index.html");
 }
 
 function isItTheLastQuestion(L){
