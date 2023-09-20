@@ -108,7 +108,7 @@ button#false-btn {
 .button-container {
     display: flex;
     justify-content: center;
-     flex-wrap: wrap; /* Wrap to next row if needed */
+     flex-wrap: wrap; /* Wrap to next row if needed not wrapping for some reason*/ 
 }
 
 
