@@ -152,7 +152,7 @@ startGameButton.addEventListener('click', async () => {
 
     await fetchQuestions(); // Initial fetch when starting the game
     // Reset and fetch questions
-    if(secelectedType === 'boolean'){
+     if(secelectedType === 'boolean'){
     document.getElementById('true-btn').style.display = 'block';
     document.getElementById('false-btn').style.display = 'block';
 }else if(secelectedType === 'multiple'){
@@ -173,6 +173,9 @@ startGameButton.addEventListener('click', async () => {
 
 
 function fetchTrueFalseQuestion() {
+       if(questionsBatch.length === 0){
+        window.location.assign("ApiIsNotRespondingPage.html")
+    }
     let Question = questionsBatch[currentQuestionIndex].question;
     let decodedQuestion = decodeHtmlEntities(Question);
    
@@ -226,6 +229,7 @@ console.log("running this function");
 
         Scoree = Scoree + 1;
         Score.textContent = `Score: ${Scoree}`;
+        resultElement.style.color = 'lightgreen';
         resultElement.textContent = 'Correct!';
         continueButton.style.display = 'block';
         continueButton.textContent = 'Continue';
@@ -240,10 +244,12 @@ console.log("running this function");
 
         if(HP === 0 || HP === 1){
        currentQuestionIndex = addindex(currentQuestionIndex);
+       resultElement.style.color = 'red';
         resultElement.textContent = `Incorrect! The correct answer is ${correctAnswer}.`;
         
-        healthDisplay.textContent = "DEAD";
+        healthDisplay.textContent = "You have lost!";
         
+        healthDisplay.style.color = 'red';
        
         
         resetButton.style.display = 'block';
@@ -259,6 +265,7 @@ console.log("running this function");
         console.log(HP);
          currentQuestionIndex = addindex(currentQuestionIndex);
          let newCorectAnswer = decodeHtmlEntities(correctAnswer);
+        resultElement.style.color = 'red';
         resultElement.textContent = `Incorrect! The correct answer is ${newCorectAnswer}.`;
         continueButton.style.display = 'block';
         healthDisplay.textContent = `Health: ${HP}`;

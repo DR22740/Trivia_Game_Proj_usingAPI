@@ -9,6 +9,34 @@
 <body>
     <div class="win-container">
         <h1 class="win-text">You Win!</h1>
+       
+       
     </div>
+    <div class="win-container">
+       
+        <div class="button-container">
+            <button id="return-btn">Restart</button>
+            <br>
+          
+        </div>
+   <!--      <div class="button-container">
+            
+            <button id="score-btn">Score</button>
+
+        </div> -->
+<!--          <div class="button-container">
+           <p id="scoreDisplayWin">Test</p>
+
+        </div>
+        -->
+    </div>
+    
+  <script>
+        // JavaScript to navigate back to index.html when the button is clicked
+        const backButton = document.getElementById('return-btn');
+        backButton.addEventListener('click', () => {
+            window.location.href = 'index.html'; // Replace 'index.html' with your actual file path
+        });
+    </script>
 </body>
 </html>
